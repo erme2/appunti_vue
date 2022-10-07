@@ -18,3 +18,10 @@ Angular offre anche maggiori funzioni e opzioni. ReactJS non é un framework, é
 
 ## Capitolo 2
 ### **Come integrare VueJS in un progetto**
+Puoi partire dalla home di [VueJS.org](https://vuejs.org/) cliccando su [Install -> Using Vue from CDN](https://vuejs.org/guide/quick-start.html#using-vue-from-cdn).
+Aggiungere questo link prima dei tuoi file JS dovrebbe essere abbastanza.
+```
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+```
+
+Section 1 completata Fri 07/10/2022 23:02

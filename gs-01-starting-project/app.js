@@ -2,17 +2,20 @@ Vue.createApp({
     data() {
         return {
             goals: [],
-            enteredValue: ''
+            enteredValue: "",
         };
     },
     methods: {
         addGoal() {
-            
-        }
-    }
-});
-
-
+            if (this.enteredValue == "") {
+                console.log("Empty value entered");
+            } else {
+                this.goals.push(this.enteredValue);
+            }
+            this.enteredValue = "";
+        },
+    },
+}).mount("#app");
 
 // const buttonEL = document.querySelector('button');
 // const inputEl = document.querySelector('input');
