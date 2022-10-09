@@ -24,4 +24,5 @@ Aggiungere questo link prima dei tuoi file JS dovrebbe essere abbastanza.
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 ```
 
-Section 1 completata Fri 07/10/2022 23:02
+Capitolo 16 (section 2) completato Domenica 09/10/2022 11:51 (Compleanno di Milo)
+Section 1 completata Fri 07/10/2022 23:02 (dopo cena)
