@@ -70,6 +70,26 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
 
 
 
+## Modificatori di eventi (event modifiers)
+Quando colleghi un evento ad una funzione potresti voler fermare la funzione connessa all'evento di default. Per esempio nel caso di un form, potresti voler disabilitare il submit connesso all'evento click su un button. Questo si può fare con un event modifier.
+```html
+<!-- 
+in this case the form submit is prevented (the page will not reload)
+but the submitForm function is executed
+ -->
+<form v-on:submit.prevent="submitForm">
+<!-- 
+in this other case the submitForm function will be executed just if you click on the right mouse button 
+ -->
+<button v-on:click.right="submitForm">Sign up</button>
+<!-- 
+in this other case the input will execute the function when the enter key is entered
+ -->
+<input type="text" v-bind:value="yourName" v-on:input.enter="update($event)">
+```
+
+
+
 ## Interpolazione (interpolation)
 - `{{ var }}`: stampa una variabile dal oggeto nel codice html. 
     - Questa sintassi é valida per qualsiasi oggetto dichiarato nella funzione `data` 
@@ -95,3 +115,23 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
         ```html
         <p>{{ 1 + 1 }}</p> or <p>{{ Math.random() }}</p>
         ```
+
+- `$event`: se stai chiamando una funzione che hai creato in `methods` e vuoi passare in maniera esplicita l'evento (quello creato e gestito da JS) connesso alla funzione puoi usare questa parola chiave. 
+    *Attenzione questo argomento deve essere il primo che passi* 
+    ```html
+    <input type="text" v-on:input="update($event, 123)">
+    ```
+    ```javascript
+    const app = Vue.createApp({
+        data() {
+            return {
+                yourName: "AAA"
+            };
+        },
+        methods: {
+            update(event, secondArg) {
+                this.yourName = event.target.value + secondArg;
+            }
+        }
+    });
+    ```
