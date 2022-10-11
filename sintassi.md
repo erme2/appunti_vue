@@ -30,6 +30,7 @@ app.mount("#user-goal");
 ### **Parametri**
 - **data**: é l'oggetto che contiene i dati e le strutture di dati, **deve essere dichiarato come una *funzione* e questa funzione deve sempre ritornare un oggetto**
 - **methods**: é un oggetto che contiene una lista delle funzioni che utilizzeremo all'interno di Vue.
+- **computed**: é un oggetto che contiene una lista di funzioni, come methods. Però queste funzioni devono essere semplici e devono essere pensate per ovviare a problemi semplici che una semplice variabile non può risolvere. Vue per sua natura ricalcola la singola proprietà (di `data`) aggiornata ed esegue tuttle le funzioni presenti nel template. Le funzioni computed, vengono eseguite sono se citate direttamente.
 
 Da notare come all'interno delle funzioni ci si possa riferire all'oggetto data usando `this`.
 
@@ -57,7 +58,9 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     ```
 
 - `v-model`: collega il `value` di un html element ad una proprietà dell'oggetto dichiarato nella funzione `data` dell'oggetto Vue. 
-
+    
+    **Attenzione questo é un collegamento che funziona in dure direzioni!!!**
+    
     ```html
     <input type="text" id="goal" v-model="enteredValue" />
     ```
@@ -68,6 +71,11 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     <button v-on:click="addGoal">Add Goal</button>
     ```
 
+- `v-once`: questa direttiva serve a bloccare l'interazione con vue dopo la prima interazione. Diciamo che hai un valore che deve essere aggiornato una sola volta, questa è la direttiva giusta
+    ```html
+    <p>Result: {{ counter }}</p>
+    <p v-once>blocked: {{ counter }}</p>
+    ```
 
 
 ## Modificatori di eventi (event modifiers)
