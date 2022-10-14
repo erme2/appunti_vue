@@ -1,6 +1,4 @@
-# Sintassi
-
-## Inizializzare Vue
+# Inizializzare Vue
 Una volta caricato il file dell'eseguibile vue dal CDN dovrai inizializzare l'oggetto Vue con cui andrai a lavorare. Questa parte collega un oggetto vue ad una parte della pagina html e ti permette di usare vue per controllare quell'oggetto e tutti i child che contiene.
 ```javascript
 Vue.createApp({
@@ -27,22 +25,53 @@ const app = Vue.createApp({
 app.mount("#user-goal");
 ```
 
-### **Parametri**
-- **data**: é l'oggetto che contiene i dati e le strutture di dati, **deve essere dichiarato come una *funzione* e questa funzione deve sempre ritornare un oggetto**
-- **methods**: é un oggetto che contiene una lista delle funzioni che utilizzeremo all'interno di Vue.
-- **computed**: é un oggetto che contiene una lista di funzioni, come methods. Però queste funzioni devono essere semplici e devono essere pensate per ovviare a problemi semplici che una semplice variabile non può risolvere. Vue per sua natura ricalcola la singola proprietà (di `data`) aggiornata ed esegue tuttle le funzioni presenti nel template. Le funzioni computed, vengono eseguite sono se citate direttamente.
+# **Parametri**
 
-Da notare come all'interno delle funzioni ci si possa riferire all'oggetto data usando `this`.
+## **data**
+é l'oggetto che contiene i dati e le strutture di dati, **deve essere dichiarato come una *funzione* e questa funzione deve sempre ritornare un oggetto**
 
-## Direttive (Directives)
+## **methods**
+é un oggetto che contiene una lista delle funzioni che utilizzeremo all'interno di Vue.
+
+## **computed**
+le computed properties sono essenzialmente come i methods, con un'unica grande differenza: vue conoscerà le dependencies (altre propietà di vue collegate al computed field) e verranno ricalcolate solo se una di queste dependencies cambia.
+
+**computed dovrebbe contenere funzioni elementari, funzioni complesse (o che richiedono anche solo un parametro) dovrebbero essere dichiarate in `methods`**.
+
+## **watch**
+contiene una lista di funzioni il cui nome é collegato alle proprieta di `data`. Queste funzioni verranno eseguite quando la collegata proprietà cambia. In queste funzioni é possibile dichiarare due parametri di sistema: value, oldvalue che contengono appunto il valore corrente e il valore precedente.
+```Javascript
+Vue.createApp({
+    data() {
+        return {
+            enteredValue: '',
+            computedValue: '';
+        };
+    },
+    watch: {
+        enteredValue(value, oldValue) {
+            computedValue = enteredValue + " some static data";
+            console.log('enteredValue old value = '+ oldValue)
+        }
+    }
+}).mount('#app');
+```
+
+Da notare come all'interno di tutte le funzioni (contenute nelle varie proprietà) ci si possa riferire all'oggetto data usando `this`.
+
+
+
+
+# Direttive (Directives)
 Le directives sono delle proprietà degli oggetti html che non vengono riconosciuti dal browser ma che vengono riconosciuti e usati da Vue. 
 
 
 Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
-- `v-bind`: collega il valore di un attributo html ad una proprietà di `data`
+- `v-bind`: collega il valore di un attributo html ad una proprietà di `data` (lo shorthand per `v-bind` é `:`)
 
     ```html
     <p>Learn more <a v-bind:href="vueLink">about Vue</a></p>
+    <p>Learn more <a :href="vueLink">about Vue</a></p>
     ```
 
 - `v-for`: collega un elemento ad un array presente nella funzione `data` e ripete l'oggetto per ogni elemento nell'array collegato
@@ -65,10 +94,11 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     <input type="text" id="goal" v-model="enteredValue" />
     ```
 
-- `v-on:element`: collega un evento all'elemento html
+- `v-on:element`: collega un evento all'elemento html (`@` é lo shorthand per `v-on`)
 
     ```html
     <button v-on:click="addGoal">Add Goal</button>
+    <button @click="addGoal">Add Goal</button>
     ```
 
 - `v-once`: questa direttiva serve a bloccare l'interazione con vue dopo la prima interazione. Diciamo che hai un valore che deve essere aggiornato una sola volta, questa è la direttiva giusta
@@ -78,7 +108,7 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     ```
 
 
-## Modificatori di eventi (event modifiers)
+# Modificatori di eventi (event modifiers)
 Quando colleghi un evento ad una funzione potresti voler fermare la funzione connessa all'evento di default. Per esempio nel caso di un form, potresti voler disabilitare il submit connesso all'evento click su un button. Questo si può fare con un event modifier.
 ```html
 <!-- 
@@ -98,7 +128,7 @@ in this other case the input will execute the function when the enter key is ent
 
 
 
-## Interpolazione (interpolation)
+# Interpolazione (interpolation)
 - `{{ var }}`: stampa una variabile dal oggeto nel codice html. 
     - Questa sintassi é valida per qualsiasi oggetto dichiarato nella funzione `data` 
 

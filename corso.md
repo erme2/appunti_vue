@@ -23,7 +23,7 @@ Aggiungere questo link prima dei tuoi file JS dovrebbe essere abbastanza.
 ```
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 ```
-
+Capitolo 32 (section 2) completato Venerdí 14/10/2022 17:28
 Catitolo 27 (section 2) completato Mercoledí 12/10/2022 00:08
 Capitolo 25 (section 2) completato Domenica 09/10/2022 21:38
 Capitolo 20 (section 2) completato Domenica 09/10/2022 13:43
