@@ -74,10 +74,16 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     <p>Learn more <a :href="vueLink">about Vue</a></p>
     ```
 
-- `v-for`: collega un elemento ad un array presente nella funzione `data` e ripete l'oggetto per ogni elemento nell'array collegato
+- `v-for`: collega un elemento ad un array presente nella funzione `data` e ripete l'oggetto per ogni elemento nell'array/oggetto collegato
     
     ```html
     <li v-for="goal in goals">{{ goal }}</li>
+    <!-- or -->
+    <li v-for="(goal, index) in goals">{{ index }} - {{ goal }}</li>
+    <!-- or -->
+    <li v-for="(value, key, index) in {name: User, age: 32}">{{ key }}{{ value }} - {{ index }}</li>
+    <!-- or -->
+    <li v-for="num in 10">{{ num }}</li>
     ```
 
 - `v-html`: funzione come v-bind, serve a collegare una proprietà delle funzione data al contenuto di un elemento html, ma viene usato se questo contenuto dovrà essere trattato come codice html. NON ABUSARE, la norma dovrebbe essere v-bind e v-html l'eccezione.
@@ -85,6 +91,20 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     ```html
     <p v-html="outputGoal()"></p>
     ```
+
+- `v-if`: vue utilizza questo if per visualizzare o meno un elemento html. Puoi usare una qualsiasi espressione JS e l'elemento sarà visibile sono se e finché questa espressione sarà `true` (l'espressione protrebbe essere collegata ad una funzione o ad una proprietà di data che cambiando protrebbe cambiare il risultato dell'espressione).
+Attenzione!!! Questo elemento non verrà sono nascosto, verrà completamente rimosso!
+    - `v-else`
+    - `v-else-if`
+    Possono essere utilizzati con `v-if` ma saranno validi solo se usati negli elementi direttamente successivi all'elemento che ha un `v-if` affindato nel codice.
+
+    ```html
+    <p v-if="goals.length === 0">questo paragrafo sarà visibile finché l'array goals rimarrà vuoto</p>
+    <p v-else-if="goals.lengh > 10">questo paragrafo sarà visibile solo se goals ha più di 10 elementi</p>
+    <p v-else>questo paragrafo sarà visibile finché l'array goals non sarà vuoto (e con meno di 10 elementi)</p>
+    
+    ```
+
 
 - `v-model`: collega il `value` di un html element ad una proprietà dell'oggetto dichiarato nella funzione `data` dell'oggetto Vue. 
     
@@ -107,6 +127,10 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     <p v-once>blocked: {{ counter }}</p>
     ```
 
+- `v-show`: molto simile ad `v-if` ma con due grandi differenze: non può essere linkato ad altri elementi html (come con `v-else`), ma soprattutto l'elemento non verrà eliminato dal document, ma solo mostrato/nascosto. Mostrato se l'espressione = true, nascosto se false.
+    ```html
+    <p v-show="1 === 1">paragrafo visibile solo se 1 === 1</p>
+    ```
 
 # Modificatori di eventi (event modifiers)
 Quando colleghi un evento ad una funzione potresti voler fermare la funzione connessa all'evento di default. Per esempio nel caso di un form, potresti voler disabilitare il submit connesso all'evento click su un button. Questo si può fare con un event modifier.
