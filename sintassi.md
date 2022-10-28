@@ -85,6 +85,10 @@ Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
     <!-- or -->
     <li v-for="num in 10">{{ num }}</li>
     ```
+    Quando usi il `v-for` é buona abitudine usare l'attributo `key`, che aiuta ad accedere ad un elemento specifico della lista per aggiornarlo o eliminarlo. Non c'é un valore unico fornito in automatico da vue, ma nelle situazioni classiche basta utilizzare un valore unico che protreste aver ricevuto dal DB ad esempio...
+    ```html
+    <li v-for="goal in goals" :key="unique_key">{{ goal }}</li>
+    ```
 
 - `v-html`: funzione come v-bind, serve a collegare una proprietà delle funzione data al contenuto di un elemento html, ma viene usato se questo contenuto dovrà essere trattato come codice html. NON ABUSARE, la norma dovrebbe essere v-bind e v-html l'eccezione.
 
