@@ -38,6 +38,36 @@ le computed properties sono essenzialmente come i methods, con un'unica grande d
 
 **computed dovrebbe contenere funzioni elementari, funzioni complesse (o che richiedono anche solo un parametro) dovrebbero essere dichiarate in `methods`**.
 
+## **template**
+Usando questo parametro puoi lasciare vuoto l'elemento html su cui hai montato l'app vue e mettere qui il codice html che avresti messo 
+nell'elemento html.
+```js
+Vue.createApp({
+    template: `
+    <h1>{{ title }}</h1> 
+    <ul>
+        <li v-for="row in rows">{{ row.id }}</p>
+    </ul>`,
+    data() {
+        return {
+            title: 'look at this :)',
+            computedValue: [
+                {id: 1, name: test1},
+                {id: 2, name: test2}
+            ]
+        };
+    },
+    watch: {
+        enteredValue(value, oldValue) {
+            computedValue = enteredValue + " some static data";
+            console.log('enteredValue old value = '+ oldValue)
+        }
+    }
+}).mount('#app');
+
+```
+
+
 ## **watch**
 contiene una lista di funzioni il cui nome é collegato alle proprieta di `data`. Queste funzioni verranno eseguite quando la collegata proprietà cambia. In queste funzioni é possibile dichiarare due parametri di sistema: value, oldvalue che contengono appunto il valore corrente e il valore precedente.
 ```Javascript
@@ -67,13 +97,35 @@ Le directives sono delle proprietà degli oggetti html che non vengono riconosci
 
 
 Iniziano quasi tutti per `v-`. Elencheró qui sotto i più importanti
+    
+- `ref`: é usato da vue per referenziare elementi html in diversi contesti. Ad esempio: potresti avere un elemento input di
+cui voi leggere il valore aggiornato a uno specifico evento (come un click):
+    ```html
+    <section id="app">
+        <input type="text" ref="userText">
+        <button @click="setText">Set Text</button>
+        <p>{{ message }}</p>
+    </section>
+    ```
+    ```javascript
+    const app = Vue.createApp({
+        data() {return {
+            message: ""
+        }},
+        methods: {
+            setText() {
+                this.message = this.$refs.userText.value;
+            }
+        }
+    });
+    ```
+
 - `v-bind`: collega il valore di un attributo html ad una proprietà di `data` (lo shorthand per `v-bind` é `:`)
 
     ```html
     <p>Learn more <a v-bind:href="vueLink">about Vue</a></p>
     <p>Learn more <a :href="vueLink">about Vue</a></p>
     ```
-
 - `v-for`: collega un elemento ad un array presente nella funzione `data` e ripete l'oggetto per ogni elemento nell'array/oggetto collegato
     
     ```html
@@ -111,7 +163,6 @@ Attenzione!!! Questo elemento non verrà sono nascosto, verrà completamente rim
 
 
 - `v-model`: collega il `value` di un html element ad una proprietà dell'oggetto dichiarato nella funzione `data` dell'oggetto Vue. 
-    
     **Attenzione questo é un collegamento che funziona in dure direzioni!!!**
     
     ```html
@@ -182,110 +233,110 @@ in this other case the input will execute the function when the enter key is ent
         <p>{{ 1 + 1 }}</p> or <p>{{ Math.random() }}</p>
         ```
 
-- `$event`: se stai chiamando una funzione che hai creato in `methods` e vuoi passare in maniera esplicita l'evento (quello creato e gestito da JS) connesso alla funzione puoi usare questa parola chiave. 
-    *Attenzione questo argomento deve essere il primo che passi* 
-    ```html
-    <input type="text" v-on:input="update($event, 123)">
-    ```
-    ```javascript
-    const app = Vue.createApp({
-        data() {
-            return {
-                yourName: "AAA"
-            };
-        },
-        methods: {
-            update(event, secondArg) {
-                this.yourName = event.target.value + secondArg;
-            }
-        }
-    });
-    ```
-
-    # Dynamic Styles
-    Vue può cambiare lo style di qualsiasi oggetto controllato molto facilmente. Ci sono diversi modi di intervenire: 
-
-    - style: puoi collegare usando v-bind per collegare lo style di una classe ad proprietà di `data` (o un computed). Grazie alla sintassi della singola parentesi graffa é possibile definire il valore della proprietà css dinamicamente
-    ```html
-        <div
-            class="demo1" 
-            :style="{'border-color': boxASelected ? 'red' : '#ccc'}"
-            @click="selectBox('A')"
-        ></div>
-        <div
-            class="demo2" 
-            :style="{borderColor: boxASelected ? 'red' : '#ccc'}"
-            @click="selectBox('A')"
-        ></div>
-    ```
-
-    É interessante notare come le proprietà debbano essere dichiarate come stringa se usiamo il nome convezionale (demo1) o che possano essere dichiarate come variabili se si usa il usa la versione camelCase (demo2)
-
-    - class: aggiornare le classi dovrebbe essere più comodo per tenere lo style e il codice ognuno al suo posto. Per quanto riguarda le classi abbiamo 3 modi per aggiornare dinamicamente le classi.
-        - valutando una variabile: viene valutata una proprietà `data` (o un computed) e restituita una stringa che contiene le classi corrette.
+    - `$event`: se stai chiamando una funzione che hai creato in `methods` e vuoi passare in maniera esplicita l'evento (quello creato e gestito da JS) connesso alla funzione puoi usare questa parola chiave. 
+        *Attenzione questo argomento deve essere il primo che passi* 
         ```html
-        <div
-            :class="boxASelected ? 'demo active' : 'demo'" 
-            @click="selectBox('A')"
-        ></div>
-        ```
-        - sintassi con graffa singola: per situazioni più complesse ma non estreme: ogni classe viene valutata singolarmente e se true aggiunte alla propietà class.
-        ```html
-        <div
-            :class="{demo: true, active: boxASelected}" 
-            @click="selectBox('A')"
-        ></div>
-        ```
-
-        - sintassi con graffa singola e doppia proprietà: per facilitare situazioni un po' più complesse dove vanno considerate molte classi: tutte le classi singole vengono spostate nella propietà class che rimane invariabile, le classi che vengono aggiunte in base alle variabili collegate in `:class`.
-        ```html
-        <div
-            class="demo"
-            :class="{active: boxASelected}" 
-            @click="selectBox('A')"
-        ></div> 
-        ```   
-        - array syntax: puoi usare un array per definire le classi
-        ```html
-        <div
-            :class="[demo, {active: boxASelected}]" 
-            @click="selectBox('A')"
-        ></div> 
-        ```   
-
-        - sintassi con bind a proprietà o computed: nella proprietà binded viene collegato un computed the ritorna una stringa calcolata in blase al valore di altre proprietà.
-        ```html
-            <div
-                class="demo"
-                :class="boxAclasses" 
-                @click="selectBox('A')"
-            ></div> 
+        <input type="text" v-on:input="update($event, 123)">
         ```
         ```javascript
-            const app = Vue.createApp({
-                computed: {
-                    boxAclasses() {
-                        return {active: this.boxASelected};
-                    }
+        const app = Vue.createApp({
+            data() {
+                return {
+                    yourName: "AAA"
+                };
+            },
+            methods: {
+                update(event, secondArg) {
+                    this.yourName = event.target.value + secondArg;
                 }
-                data() {return {
-                    boxASelected: false
-                    boxBSelected: false,
-                    boxCSelected: false
-                }},
-                methods: {
-                    selectBox(box){
-                        if (box == "A") {
-                            this.boxASelected = !this.boxASelected;
-                            console.log(this.boxASelected);                    
-                        } else if (box == "B") {
-                            this.boxBSelected = !this.boxBSelected;
-                        } else if (box == "C") {
-                            this.boxCSelected = !this.boxCSelected;
+            }
+        });
+        ```
+
+        # Dynamic Styles
+        Vue può cambiare lo style di qualsiasi oggetto controllato molto facilmente. Ci sono diversi modi di intervenire: 
+
+        - style: puoi collegare usando v-bind per collegare lo style di una classe ad proprietà di `data` (o un computed). Grazie alla sintassi della singola parentesi graffa é possibile definire il valore della proprietà css dinamicamente
+        ```html
+            <div
+                class="demo1" 
+                :style="{'border-color': boxASelected ? 'red' : '#ccc'}"
+                @click="selectBox('A')"
+        >    </div>
+            <div
+                class="demo2" 
+                :style="{borderColor: boxASelected ? 'red' : '#ccc'}"
+                @click="selectBox('A')"
+        >    </div>
+        ```
+
+        É interessante notare come le proprietà debbano essere dichiarate come stringa se usiamo il nome convezionale (demo1) o che possano essere dichiarate come variabili se si usa il usa la versione camelCase (demo2)
+
+        - class: aggiornare le classi dovrebbe essere più comodo per tenere lo style e il codice ognuno al suo posto. Per quanto riguarda le classi abbiamo 3 modi per aggiornare dinamicamente le classi.
+            - valutando una variabile: viene valutata una proprietà `data` (o un computed) e restituita una stringa che contiene le classi corrette.
+            ```html
+            <div
+                :class="boxASelected ? 'demo active' : 'demo'" 
+                @click="selectBox('A')"
+        >    </div>
+            ```
+            - sintassi con graffa singola: per situazioni più complesse ma non estreme: ogni classe viene valutata singolarmente e se true aggiunte alla propietà class.
+            ```html
+            <div
+                :class="{demo: true, active: boxASelected}" 
+                @click="selectBox('A')"
+        >    </div>
+            ```
+
+            - sintassi con graffa singola e doppia proprietà: per facilitare situazioni un po' più complesse dove vanno considerate molte classi: tutte le classi singole vengono spostate nella propietà class che rimane invariabile, le classi che vengono aggiunte in base alle variabili collegate in `:class`.
+            ```html
+            <div
+                class="demo"
+                :class="{active: boxASelected}" 
+                @click="selectBox('A')"
+        >    </div> 
+            ```   
+            - array syntax: puoi usare un array per definire le classi
+            ```html
+            <div
+                :class="[demo, {active: boxASelected}]" 
+                @click="selectBox('A')"
+        >    </div> 
+            ```   
+
+            - sintassi con bind a proprietà o computed: nella proprietà binded viene collegato un computed the ritorna una stringa calcolata in blase al valore di altre proprietà.
+            ```html
+                <div
+                    class="demo"
+                    :class="boxAclasses" 
+                    @click="selectBox('A')"
+            >    </div> 
+            ```
+            ```javascript
+                const app = Vue.createApp({
+                    computed: {
+                        boxAclasses() {
+                            return {active: this.boxASelected};
                         }
                     }
-                }
-            });
-            app.mount('#styling');
+                    data() {return {
+                        boxASelected: false
+                        boxBSelected: false,
+                        boxCSelected: false
+                    }},
+                    methods: {
+                        selectBox(box){
+                            if (box == "A") {
+                                this.boxASelected = !this.boxASelected;
+                                console.log(this.boxASelected);                    
+                            } else if (box == "B") {
+                                this.boxBSelected = !this.boxBSelected;
+                            } else if (box == "C") {
+                                this.boxCSelected = !this.boxCSelected;
+                            }
+                        }
+                    }
+                });
+                app.mount('#styling');
 
-        ```
+            ```
