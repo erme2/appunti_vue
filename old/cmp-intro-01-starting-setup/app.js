@@ -1,11 +1,3 @@
-# Components
-
-I compoments sono una funzionalità di Vue volta ad aiutare lo sviluppatore a evitare ripetizioni di codice e a rendere 
-capillare la destrutturazione dei problemi e del codice.
-In pratica sono delle mini-app costruite e collegate all'app principale, vengono dichiarate nello stesso modo e si collegano all'app 
-principale.
-
-```javascript
 const app = Vue.createApp({
     data(){ return {
         friends: [{
@@ -51,4 +43,3 @@ app.component('friend-contact', {
 });
 
 app.mount('#app');
-```
