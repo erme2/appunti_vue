@@ -47,5 +47,17 @@ contenuti nel `package.json` e tutte le dipendenze) e delle relative versioni pe
 - `main.js`: contiene il codice JS necessario per importare e inizializzare il componente principale e avviare l'app di 
 base
 
+#### main.js
+Questo é il file da cui parte tutto... 
+```javascript
+/** importa la funzione create App dalla libreria vue */
+import { createApp } from 'vue'
+/** importa un componente vue (situato nella stessa dir del file main.js) e lo inizializza nella variablie App */
+import App from './App.vue'
 
-
+/** crea un a vue app dal componente appena importato e lo monta sull'elemento app */
+createApp(App).mount('#app');
+```
+#### vue components
+[Vue Template](./template.md)
+[Props (e parent/child)](./props.md)

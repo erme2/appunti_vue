@@ -27,16 +27,53 @@ app.mount("#user-goal");
 
 # **Parametri**
 
-## **data**
+- ### **data**
 é l'oggetto che contiene i dati e le strutture di dati, **deve essere dichiarato come una *funzione* e questa funzione deve sempre ritornare un oggetto**
 
-## **methods**
+- ### **methods**
 é un oggetto che contiene una lista delle funzioni che utilizzeremo all'interno di Vue.
 
-## **computed**
+- ### **computed**
 le computed properties sono essenzialmente come i methods, con un'unica grande differenza: vue conoscerà le dependencies (altre propietà di vue collegate al computed field) e verranno ricalcolate solo se una di queste dependencies cambia.
 
 **computed dovrebbe contenere funzioni elementari, funzioni complesse (o che richiedono anche solo un parametro) dovrebbero essere dichiarate in `methods`**.
+
+- ### props
+    Props abbrevia properties. Si possono dichiarare delle variabili in props e funzioneranno come le variabili che 
+abbiamo in `data`. Vengono usate nei child components per passare dei parametri da parent a child.
+ 
+- ### emits
+    Emits é un array di eventi custom che il componente child può emettere in determinate situazioni. Viene usato per poi 
+essere collegati a delle funzioni (che saranno dichiarate in `methods`) e passare parametri aggiornati indietro al componente
+parent.
+-  ### provide
+    Se si dichiarano dei valori nella proprietà provide di un componente parent e leggerli dalla proprietà `inject` nel 
+componente child.
+
+    Potrebbe tornare utile connettere il contenuto di provide con il contenuto di `data`. Per fare questo si può dichiarare 
+provide come una funzione (un po' come data) e usare una funzione return e la sintassi this per linkare il i dati di provide
+a `data`.
+
+    ```javascript
+    export default {
+      data() {
+        return {
+          topics: [
+            'a', 'b', 'c'
+          ],
+        };
+      },
+      provide() {
+        return {
+          topics: this.topics
+        }
+      }
+    };
+    ```
+
+- ### inject
+    Se un componente parent dichiara delle variabili in `provide` si possono leggere in un componente child elencandole 
+in `inject`.
 
 ## **template**
 Usando questo parametro puoi lasciare vuoto l'elemento html su cui hai montato l'app vue e mettere qui il codice html che avresti messo 
