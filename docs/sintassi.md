@@ -70,6 +70,36 @@ a `data`.
       }
     };
     ```
+    La compinazione provide/inject puó essere usata anche per passare delle funzioni che verranno poi eseguite nel parent 
+component.
+     ```javascript
+     // In the parent component: 
+     export default {
+       methods: {
+         activateTopic(topicId) {
+             // do domething 
+         }
+       },
+       provide() {
+         return {
+           topics: this.topics,
+           selectTopic: this.activateTopic
+         }
+       }
+     };
+   ```
+    ```html
+    <!-- in the child com -->
+    <template>
+       <button @click="selectTopic(id)">do something</button>
+    </template>
+    <script>
+      export default {
+       inject['selectTopic'],
+       props['id', 'name', 'description']
+     };
+    </script>   
+   ```
 
 - ### inject
     Se un componente parent dichiara delle variabili in `provide` si possono leggere in un componente child elencandole 
