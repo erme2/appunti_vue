@@ -6,7 +6,7 @@ In pratica sono delle mini-app costruite e collegate all'app principale, vengono
 principale.
 
 Grazie all'estensione `.vue`, tutte le parti di un component possono essere salvate nello stesso file: 
-- [Section 1](#section-1)
+- [Templates](#template)
 - script (contiene il codice JS necessario a )
 - style
 
@@ -56,4 +56,4 @@ export default {
 </script>
 ```
 
-## #<a name="section-1"></a> Section 1
+## #<a name="template"></a> Template
