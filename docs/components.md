@@ -56,4 +56,4 @@ export default {
 </script>
 ```
 
-## #<a name="template"></a> Template
+## <a name="template"></a> Template
