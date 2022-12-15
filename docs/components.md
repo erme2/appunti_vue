@@ -309,8 +309,6 @@ disordinata. In breve, dovremmo agganciare questo elemento all'elemento principa
 Teleport accetta un solo parametro/proprietà: `to`.
 Puoi passare a `to` un qualsiasi selettore CSS (anche un `#id`) e Vue aggancerà il nuovo elemento a questo elemento.
 
-dQa3CE5JLqSsg#I*DoO^G^GXZ$HoA5O%
-
 ```vue
 <template>
   <div>
